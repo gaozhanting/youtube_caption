@@ -1,4 +1,4 @@
-(function() {
+(function () {
     // 1. 清理舊的實例 (方便在 Console 重複執行測試)
     const existingContainer = document.getElementById('ghost-floating-caption');
     const existingStyle = document.getElementById('ghost-floating-style');
@@ -120,8 +120,8 @@
         // 切換為絕對座標定位，覆寫預設的 bottom/right
         container.style.left = `${initialLeft + dx}px`;
         container.style.top = `${initialTop + dy}px`;
-        container.style.bottom = 'auto'; 
-        container.style.right = 'auto';  
+        container.style.bottom = 'auto';
+        container.style.right = 'auto';
     });
 
     document.addEventListener('mouseup', () => {
@@ -151,7 +151,7 @@
         lastProcessedText = newInput;
         inner.textContent = fullText;
         // 改為讓懸浮窗內部的 div 滾動到底部
-        inner.scrollTop = inner.scrollHeight; 
+        inner.scrollTop = inner.scrollHeight;
     };
 
     const grabAction = () => {
@@ -168,5 +168,37 @@
         console.log("🎯 [Floating V1] 懸浮字幕框已就緒！(可拖曳頂部深色區域)");
     } else {
         console.log("⚠️ 找不到 YouTube 播放器元素，請確認是否在影片頁面。");
+    }
+
+
+    // 6. 核心：將自訂開關按鈕注入到右側控制列（設定按鈕的左邊）
+    const rightControls = document.querySelector('.ytp-right-controls');
+    if (rightControls) {
+        const toggleBtn = document.createElement('button');
+        toggleBtn.id = 'ghost-toggle-btn';
+        toggleBtn.setAttribute('title', '開關幽靈懸浮字幕');
+
+        const btnBox = document.createElement('span');
+        btnBox.className = 'ghost-btn-box';
+        btnBox.textContent = 'G-CC';
+        toggleBtn.appendChild(btnBox);
+
+        let isCaptionVisible = true;
+        toggleBtn.addEventListener('click', () => {
+            isCaptionVisible = !isCaptionVisible;
+            container.style.display = isCaptionVisible ? 'flex' : 'none';
+            toggleBtn.classList.toggle('is-active', isCaptionVisible);
+        });
+
+        // 尋找設定按鈕作為錨點，如果找不到就直接 prepend 塞到最前面
+        const settingsBtn = rightControls.querySelector('.ytp-settings-button');
+        if (settingsBtn) {
+            settingsBtn.parentNode.insertBefore(toggleBtn, settingsBtn);
+        } else {
+            rightControls.prepend(toggleBtn);
+        }
+        console.log("🔘 [G-CC] 開關按鈕已成功嵌入右側控制列。");
+    } else {
+        console.log("⚠️ 找不到右側控制列容器。");
     }
 })();
