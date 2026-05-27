@@ -13,6 +13,11 @@
     const style = document.createElement('style');
     style.id = 'ghost-floating-style';
     style.textContent = `
+        /* 讓 YouTube 原生的字幕容器完全透明，解決雙字幕重複的干擾 */
+        .ytp-caption-window-container {
+            opacity: 0 !important;
+            pointer-events: none !important;
+        }
         #ghost-floating-caption {
             position: fixed;
             bottom: 80px; 
