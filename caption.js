@@ -24,7 +24,7 @@
             right: 40px;
             width: 550px;
             height: 270px;
-            background: rgba(0, 0, 0, 0.90);
+            background: rgba(0, 0, 0, 1);
             border-radius: 8px; /* 賦予獨立視窗的圓角質感 */
             box-shadow: 0 10px 30px rgba(0,0,0,0.6);
             z-index: 999999; /* 確保浮在 YouTube 介面最上層 */
