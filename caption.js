@@ -128,6 +128,11 @@
         isDragging = false;
     });
 
+    // ==================== 右下角精準定位補丁 ====================
+    container.style.position = 'absolute';
+    container.style.bottom = '10px';  /* 💡 數值越小越靠到底部（原本如果是 10% 或 80px，改小它） */
+    container.style.right = '10px';   /* 💡 數值越小越靠到最右邊 */
+
     // 5. 字幕抓取與更新邏輯 (完全保留你的 V35 邏輯)
     let fullText = "";
     let lastProcessedText = "";
