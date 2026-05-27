@@ -279,3 +279,28 @@
     }, 1000);
 
 })();
+
+
+// =====================================================================
+// ⌨️ 全域快捷鍵：按下「G」鍵秒切換自訂字幕（仿 YouTube 內建 C 鍵）
+// =====================================================================
+document.addEventListener('keydown', (e) => {
+    // 🛑 安全閥：如果使用者當前游標在輸入框（搜尋欄、留言區、聊天室），直接跳過不執行
+    const activeEl = document.activeElement;
+    if (
+        activeEl.tagName === 'INPUT' || 
+        activeEl.tagName === 'TEXTAREA' || 
+        activeEl.isContentEditable
+    ) {
+        return; 
+    }
+
+    // 🎯 檢查按下的按鍵是否為 'g' 或 'G'
+    if (e.key === 'g' || e.key === 'G') {
+        const toggleBtn = document.getElementById('ghost-toggle-btn');
+        if (toggleBtn) {
+            e.preventDefault(); // 阻止瀏覽器可能產生的預設行為
+            toggleBtn.click();  // 🎯 核心：直接模擬點擊右下角的 G 按鈕
+        }
+    }
+});
