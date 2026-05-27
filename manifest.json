@@ -1,0 +1,12 @@
+{
+  "manifest_version": 3,
+  "name": "YouTube Caption",
+  "version": "1.0",
+  "description": "YouTube 字幕",
+  "content_scripts": [
+    {
+      "matches": ["*://www.youtube.com/watch*"],
+      "js": ["caption.js"]
+    }
+  ]
+}
