@@ -129,9 +129,10 @@
     });
 
     // ==================== 右下角精準定位補丁 ====================
-    container.style.position = 'absolute';
+    container.style.position = 'fixed';
     container.style.bottom = '10px';  /* 💡 數值越小越靠到底部（原本如果是 10% 或 80px，改小它） */
     container.style.right = '10px';   /* 💡 數值越小越靠到最右邊 */
+    container.style.zIndex = '999999';   /* 💡 給它最高的權重，確保它永遠浮在所有網頁組件的最上層 */
 
     // 5. 字幕抓取與更新邏輯 (完全保留你的 V35 邏輯)
     let fullText = "";
