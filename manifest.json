@@ -1,12 +1,14 @@
 {
   "manifest_version": 3,
-  "name": "YouTube Caption",
+  "name": "YouTube Ghost CC Linker",
   "version": "1.0",
-  "description": "YouTube 字幕",
+  "description": "自動嵌入完美居中的純文字 G 字字幕切換按鈕",
+  "permissions": [],
   "content_scripts": [
     {
-      "matches": ["*://www.youtube.com/watch*"],
-      "js": ["caption.js"]
+      "matches": ["https://*.youtube.com/*"],
+      "js": ["caption.js"],
+      "run_at": "document_idle"
     }
   ]
 }

@@ -174,8 +174,17 @@
     // 6. 核心：將自訂開關按鈕注入到右側控制列（設定按鈕的左邊）
     // ==================== 終極純 JS 鎖定補丁（直接替換第 6 步） ====================
     // ==================== 100% 免疫不消失！純文字完美居中補丁 ====================
-    const rightControls = document.querySelector('.ytp-right-controls');
-    if (rightControls) {
+
+    // =====================================================================
+    // 🎯 部分 B：自動注入 UI 控制按鈕（已完美鎖定文字 G 居中、無背景、無藍框）
+    // =====================================================================
+    function injectGhostButton() {
+        // 防止重複注入
+        if (document.getElementById('ghost-toggle-btn')) return;
+
+        const rightControls = document.querySelector('.ytp-right-controls');
+        if (!rightControls) return;
+
         const toggleBtn = document.createElement('button');
         toggleBtn.id = 'ghost-toggle-btn';
         toggleBtn.className = 'ytp-button';
@@ -245,4 +254,23 @@
         }
         console.log("🔘 [G-CC] 免疫版純文字按鈕已完美嵌入。");
     }
+
+    // 💡 核心自動化：監聽 YouTube 的影片切換事件，每次換片都重新檢查並注入
+    document.addEventListener('yt-navigate-finish', injectGhostButton);
+
+    // 備用初始化檢查
+    if (document.readyState === 'complete' || document.readyState === 'interactive') {
+        injectGhostButton();
+    } else {
+        document.addEventListener('DOMContentLoaded', injectGhostButton);
+    }
+
+    // 防止 YouTube 延遲加載控制列的定時定錨
+    const ghostInterval = setInterval(() => {
+        if (document.querySelector('.ytp-right-controls')) {
+            injectGhostButton();
+            clearInterval(ghostInterval);
+        }
+    }, 1000);
+
 })();
