@@ -20,7 +20,7 @@
         }
         #ghost-floating-caption {
             position: fixed;
-            bottom: 80px; 
+            bottom: 80px;
             right: 40px;
             width: 550px;
             height: 270px;
@@ -31,7 +31,7 @@
             display: flex;
             flex-direction: column;
             overflow: hidden;
-            border: 1px solid rgba(255,255,255,0.08); 
+            border: 1px solid rgba(255,255,255,0.08);
         }
         #ghost-drag-handle {
             height: 24px;
@@ -60,16 +60,16 @@
             display: flex;
             flex-direction: column;
             justify-content: flex-end;
-            
+
             font-family: -apple-system, BlinkMacSystemFont, sans-serif;
             font-size: 18px;
             font-weight: 300;
             letter-spacing: -0.2px;
             line-height: 1.5;
-            
+
             /* 保持柔和亮度的黑魔法 */
             color: rgba(255, 255, 255, 1);
-            
+
             white-space: pre-wrap;
             word-break: break-word;
             text-align: left;
@@ -172,33 +172,77 @@
 
 
     // 6. 核心：將自訂開關按鈕注入到右側控制列（設定按鈕的左邊）
+    // ==================== 終極純 JS 鎖定補丁（直接替換第 6 步） ====================
+    // ==================== 100% 免疫不消失！純文字完美居中補丁 ====================
     const rightControls = document.querySelector('.ytp-right-controls');
     if (rightControls) {
         const toggleBtn = document.createElement('button');
         toggleBtn.id = 'ghost-toggle-btn';
-        toggleBtn.setAttribute('title', '開關幽靈懸浮字幕');
+        toggleBtn.className = 'ytp-button';
 
-        const btnBox = document.createElement('span');
-        btnBox.className = 'ghost-btn-box';
-        btnBox.textContent = 'G-CC';
-        toggleBtn.appendChild(btnBox);
+        // 直接把內容填入純文字 "G"
+        toggleBtn.textContent = 'G';
 
+        // 💡 用純 CSS 鎖定字體外觀與強力 Flex 居中
+        toggleBtn.style.cssText = `
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        vertical-align: top !important;
+        background: transparent !important; /* 拔除背景 */
+        border: none !important;
+        outline: none !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+        margin: 0 6px !important;
+        width: 36px !important;
+        height: 36px !important;
+        cursor: pointer !important;
+        
+        /* 🎨 字體高級感核心：使用原生的 YouTube 粗體字型 */
+        font-family: "YouTube Sans", "Roboto", "Arial", sans-serif !important;
+        font-size: 19px !important;
+        font-weight: 700 !important; /* 粗體 */
+        line-height: 1 !important;
+        
+        /* 🎯【垂直微調核心】：如果因為瀏覽器字體渲染導致上下不對稱，
+           可以自由微調下面這行 padding（例如 1px 或 0px）來完美對齊左邊 */
+        padding-bottom: 1px !important; 
+        
+        transition: opacity 0.15s ease, color 0.15s ease !important;
+    `;
+
+        // 初始化狀態（預設開啟：紅燈）
         let isCaptionVisible = true;
-        toggleBtn.addEventListener('click', () => {
-            isCaptionVisible = !isCaptionVisible;
-            container.style.display = isCaptionVisible ? 'flex' : 'none';
-            toggleBtn.classList.toggle('is-active', isCaptionVisible);
+        toggleBtn.style.color = '#ff0000';
+        toggleBtn.style.opacity = '1';
+
+        // 用 JS 接管 Hover 狀態
+        toggleBtn.addEventListener('mouseenter', () => {
+            if (!isCaptionVisible) toggleBtn.style.opacity = '1';
+        });
+        toggleBtn.addEventListener('mouseleave', () => {
+            if (!isCaptionVisible) toggleBtn.style.opacity = '0.6';
         });
 
-        // 尋找設定按鈕作為錨點，如果找不到就直接 prepend 塞到最前面
+        // 點擊切換：開啟紅燈，關閉變原生控制欄的白字
+        toggleBtn.addEventListener('click', () => {
+            isCaptionVisible = !isCaptionVisible;
+            if (typeof container !== 'undefined') {
+                container.style.display = isCaptionVisible ? 'flex' : 'none';
+            }
+
+            toggleBtn.style.color = isCaptionVisible ? '#ff0000' : '#ffffff';
+            toggleBtn.style.opacity = isCaptionVisible ? '1' : '0.6';
+        });
+
+        // 插入 YouTube 控制列
         const settingsBtn = rightControls.querySelector('.ytp-settings-button');
         if (settingsBtn) {
             settingsBtn.parentNode.insertBefore(toggleBtn, settingsBtn);
         } else {
             rightControls.prepend(toggleBtn);
         }
-        console.log("🔘 [G-CC] 開關按鈕已成功嵌入右側控制列。");
-    } else {
-        console.log("⚠️ 找不到右側控制列容器。");
+        console.log("🔘 [G-CC] 免疫版純文字按鈕已完美嵌入。");
     }
 })();
