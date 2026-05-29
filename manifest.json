@@ -7,7 +7,10 @@
   "content_scripts": [
     {
       "matches": ["https://*.youtube.com/*"],
-      "js": ["caption.js"],
+      "js": [
+        "gControl.js",
+        "caption.js"
+      ],
       "run_at": "document_idle"
     }
   ]
