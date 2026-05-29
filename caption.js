@@ -62,8 +62,8 @@
             justify-content: flex-end;
 
             font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-            font-size: 18px;
-            font-weight: 300;
+            font-size: 24px;
+            font-weight: 400;
             letter-spacing: -0.2px;
             line-height: 1.5;
 
@@ -128,11 +128,20 @@
         isDragging = false;
     });
 
-    // ==================== 右下角精準定位補丁 ====================
+    // ==================== 畫面中下方「自動居中」浮動補丁 ====================
     container.style.position = 'fixed';
-    container.style.bottom = '10px';  /* 💡 數值越小越靠到底部（原本如果是 10% 或 80px，改小它） */
-    container.style.right = '10px';   /* 💡 數值越小越靠到最右邊 */
-    container.style.zIndex = '999999';   /* 💡 給它最高的權重，確保它永遠浮在所有網頁組件的最上層 */
+
+    // 1. 上下位置調整（中間偏下）
+    container.style.bottom = '80px';     /* 💡 數值越大越往上提。如果希望隨螢幕高度等比例縮放，也可以改用百分比，例如 '10%' */
+
+    // 2. 左右完美居中公式
+    container.style.left = '50%';        /* 💡 把元件的「左邊邊緣」對齊螢幕的正中央 */
+    container.style.transform = 'translateX(-50%)'; /* 💡 核心：再把自己往左拉回自身寬度的一半，達成完美物理居中 */
+
+    // ⚠️ 超重要：必須把之前的 right 屬性清空，否則瀏覽器會混亂
+    container.style.right = 'auto';
+
+    container.style.zIndex = '999999';   /* 確保永遠浮在最上層 */
 
     // 5. 字幕抓取與更新邏輯 (完全保留你的 V35 邏輯)
     let fullText = "";
