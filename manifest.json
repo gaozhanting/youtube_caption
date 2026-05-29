@@ -7,6 +7,7 @@
   "content_scripts": [
     {
       "matches": ["https://*.youtube.com/*"],
+      "css": ["styles.css"],
       "js": [
         "gControl.js",
         "caption.js"

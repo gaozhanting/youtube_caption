@@ -9,82 +9,6 @@
         window.ghostObserverV35.disconnect();
     }
 
-    // 2. 注入 CSS
-    const style = document.createElement('style');
-    style.id = 'ghost-floating-style';
-    style.textContent = `
-        /* 讓 YouTube 原生的字幕容器完全透明，解決雙字幕重複的干擾 */
-        .ytp-caption-window-container {
-            opacity: 0 !important;
-            pointer-events: none !important;
-        }
-        #ghost-floating-caption {
-            position: fixed;
-            bottom: 80px;
-            right: 40px;
-            width: 550px;
-            height: 270px;
-            background: rgba(0, 0, 0, 1);
-            border-radius: 8px; /* 賦予獨立視窗的圓角質感 */
-            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
-            z-index: 999999; /* 確保浮在 YouTube 介面最上層 */
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            border: 1px solid rgba(255,255,255,0.08);
-        }
-        #ghost-drag-handle {
-            height: 24px;
-            background: #111111;
-            width: 100%;
-            flex-shrink: 0;
-            cursor: grab;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        #ghost-drag-handle:active {
-            cursor: grabbing;
-        }
-        /* 視覺清晰的拖曳提示小橫條 */
-        #ghost-drag-handle::before {
-            content: "";
-            width: 32px;
-            height: 4px;
-            background: rgba(255,255,255,0.2);
-            border-radius: 2px;
-        }
-        #ghost-inner-content {
-            padding: 25px 28px 30px 28px; /* 嚴格遵循你的底部 30px 與側邊 28px 設定 */
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-
-            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-            font-size: 24px;
-            font-weight: 400;
-            letter-spacing: -0.2px;
-            line-height: 1.5;
-
-            /* 保持柔和亮度的黑魔法 */
-            color: rgba(255, 255, 255, 1);
-
-            white-space: pre-wrap;
-            word-break: break-word;
-            text-align: left;
-            overflow-y: auto;
-            -webkit-user-select: text; /* 允許滑鼠選取與複製 */
-            user-select: text;
-        }
-        /* 隱藏原生滾動條，保持幽靈般的視覺純淨 */
-        #ghost-inner-content::-webkit-scrollbar {
-            width: 0px;
-            background: transparent;
-        }
-    `;
-    document.head.appendChild(style);
-
     // 3. 建立 DOM 結構
     const container = document.createElement('div');
     container.id = 'ghost-floating-caption';
@@ -127,17 +51,6 @@
     document.addEventListener('mouseup', () => {
         isDragging = false;
     });
-
-    // ==================== 畫面中下方「自動居中」浮動補丁 ====================
-    container.style.position = 'fixed';
-    // 1. 上下位置調整（中間偏下）
-    container.style.bottom = '80px';     /* 💡 數值越大越往上提。如果希望隨螢幕高度等比例縮放，也可以改用百分比，例如 '10%' */
-    // 2. 左右完美居中公式
-    container.style.left = '50%';        /* 💡 把元件的「左邊邊緣」對齊螢幕的正中央 */
-    container.style.transform = 'translateX(-50%)'; /* 💡 核心：再把自己往左拉回自身寬度的一半，達成完美物理居中 */
-    // ⚠️ 超重要：必須把之前的 right 屬性清空，否則瀏覽器會混亂
-    container.style.right = 'auto';
-    container.style.zIndex = '999999';   /* 確保永遠浮在最上層 */
 
     // 5. 字幕抓取與更新邏輯 (完全保留你的 V35 邏輯)
     let fullText = "";
