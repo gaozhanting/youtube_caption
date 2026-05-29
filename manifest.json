@@ -7,7 +7,10 @@
   "content_scripts": [
     {
       "matches": ["https://*.youtube.com/*"],
-      "css": ["styles.css"],
+      "css": [
+        "ghostCaption.css",
+        "ghostButton.css"
+      ],
       "js": [
         "createDom.js",
         "createCaptionUpdateObserver.js",

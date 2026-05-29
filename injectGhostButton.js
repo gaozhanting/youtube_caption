@@ -19,35 +19,6 @@ function injectGhostButton() {
     // 直接把內容填入純文字 "G"
     toggleBtn.textContent = 'G';
 
-    // 💡 用純 CSS 鎖定字體外觀與強力 Flex 居中
-    toggleBtn.style.cssText = `
-        display: inline-flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        vertical-align: top !important;
-        background: transparent !important; /* 拔除背景 */
-        border: none !important;
-        outline: none !important;
-        box-shadow: none !important;
-        padding: 0 !important;
-        margin: 0 6px !important;
-        width: 36px !important;
-        height: 36px !important;
-        cursor: pointer !important;
-        
-        /* 🎨 字體高級感核心：使用原生的 YouTube 粗體字型 */
-        font-family: "YouTube Sans", "Roboto", "Arial", sans-serif !important;
-        font-size: 19px !important;
-        font-weight: 700 !important; /* 粗體 */
-        line-height: 1 !important;
-        
-        /* 🎯【垂直微調核心】：如果因為瀏覽器字體渲染導致上下不對稱，
-           可以自由微調下面這行 padding（例如 1px 或 0px）來完美對齊左邊 */
-        padding-bottom: 1px !important; 
-        
-        transition: opacity 0.15s ease, color 0.15s ease !important;
-    `;
-
     // 初始化狀態（預設開啟：紅燈）
     let isCaptionVisible = true;
     toggleBtn.style.color = '#ff0000';
