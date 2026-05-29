@@ -9,8 +9,10 @@
       "matches": ["https://*.youtube.com/*"],
       "css": ["styles.css"],
       "js": [
-        "gControl.js",
-        "caption.js"
+        "createDom.js",
+        "createCaptionUpdateObserver.js",
+        "injectGhostButton.js",
+        "main.js"
       ],
       "run_at": "document_idle"
     }
