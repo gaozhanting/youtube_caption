@@ -72,18 +72,14 @@ function injectGhostButton() {
             return;
         }
 
-        // 2. ⚡ 狀態直覺判斷：直接看大盒子當前是不是隱藏的
-        // 如果當前是 'none'，代表被隱藏了，那接下來就要「顯示它」
-        const shouldShow = container.style.display === 'none';
+        // 🎯 核心優化：直接用按鈕的狀態變數來當裁判，最誠實，絕對不會因為空字串出錯
+        container.style.display = isCaptionVisible ? 'flex' : 'none';
 
-        // 3. 🎯 執行切換（配合我們之前改好的 block 佈局）
-        container.style.display = shouldShow ? 'flex' : 'none';
+        // 按鈕視覺反饋
+        toggleBtn.style.color = isCaptionVisible ? '#ff0000' : '#ffffff';
+        toggleBtn.style.opacity = isCaptionVisible ? '1' : '0.6';
 
-        // 4. 按鈕視覺反饋（開啟紅燈，關閉變原生的白字）
-        toggleBtn.style.color = shouldShow ? '#ff0000' : '#ffffff';
-        toggleBtn.style.opacity = shouldShow ? '1' : '0.6';
-        
-        console.log(`👻 按鈕切換成功：字幕當前已 ${shouldShow ? '開啟' : '關閉'}`);
+        console.log(`👻 按鈕切換成功：字幕當前已 ${isCaptionVisible ? '開啟' : '關閉'}`);
     });
 
     // 插入 YouTube 控制列

@@ -31,6 +31,10 @@ function createDom() {
         if (!isDragging) return;
         const dx = e.clientX - startX;
         const dy = e.clientY - startY;
+
+        // 🎯 核心修復：拖曳時必須拔除 CSS 的居中 transform，否則滑鼠座標會對不准
+        container.style.transform = 'none';
+
         // 切換為絕對座標定位，覆寫預設的 bottom/right
         container.style.left = `${initialLeft + dx}px`;
         container.style.top = `${initialTop + dy}px`;
